@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stundenzettel</title>
+<style>
+* { box-sizing: border-box; }
+body { 
+  margin: 0; 
+  padding: 0; 
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  min-height: 100vh;
+}
+
+.header { 
+  background: linear-gradient(135deg, #2d7d4a 0%, #4CAF50 100%);
+  color: white; 
+  padding: 24px 16px;
+  text-align: center; 
+  box-shadow: 0 8px 32px rgba(76,175,80,0.25);
+}
+
+.header h1 { 
+  font-size: 32px; 
+  margin: 0; 
+  font-weight: 700;
+}
+
+.header p { 
+  margin: 8px 0 4px 0; 
+  opacity: 0.95; 
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.header-info {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.95;
+  letter-spacing: 0.5px;
+}
+
+.nav { 
+  background: white;
+  padding: 16px; 
+  display: flex; 
+  gap: 16px; 
+  justify-content: center; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.nav button { 
+  width: 44px; 
+  height: 44px; 
+  border: none;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  border-radius: 12px; 
+  cursor: pointer; 
+  font-size: 20px; 
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+}
+
+.nav button:hover { 
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76,175,80,0.4);
+}
+
+.nav button:active { 
+  transform: translateY(0);
+}
+
+.nav-text { 
+  font-weight: 700; 
+  color: #2d7d4a; 
+  font-size: 26px; 
+  flex: 1; 
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.container { 
+  max-width: 560px; 
+  margin: 0 auto; 
+  padding: 16px;
+}
+
+.card { 
+  background: white;
+  border-radius: 16px; 
+  padding: 20px; 
+  margin-bottom: 12px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1px solid rgba(76,175,80,0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.day-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.day-info {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.day-label { 
+  font-weight: 700; 
+  color: #2d7d4a; 
+  font-size: 18px;
+}
+
+.time-display { 
+  background: linear-gradient(135deg, #2d7d4a 0%, #4CAF50 100%);
+  color: white; 
+  padding: 8px 16px; 
+  border-radius: 10px; 
+  font-weight: 700; 
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+}
+
+.input-row { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hours-btn { 
+  width: 36px; 
+  height: 36px; 
+  border: 2px solid #4CAF50;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #4CAF50;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.hours-btn:hover {
+  background: #f0f7f0;
+  transform: translateY(-2px);
+}
+
+.hours-btn:active {
+  background: #4CAF50;
+  color: white;
+}
+
+.hours-display { 
+  background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e9 100%);
+  border: 2px solid #4CAF50;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  color: #2d7d4a;
+  min-width: 70px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.1);
+}
+
+.team-section { 
+  background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e9 100%);
+  border: 2px solid #4CAF50;
+  border-radius: 12px; 
+  padding: 14px; 
+  margin: 14px 0;
+}
+
+.team-label { 
+  font-size: 13px; 
+  color: #2d7d4a; 
+  font-weight: 700; 
+  margin-bottom: 10px; 
+  display: flex; 
+  justify-content: space-between;
+}
+
+.team-remove { 
+  border: none; 
+  background: #ff5252;
+  color: white; 
+  padding: 6px 12px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-size: 11px; 
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.team-remove:hover { 
+  background: #ff1744;
+}
+
+.team-controls { 
+  display: flex; 
+  gap: 10px; 
+  align-items: center;
+  justify-content: center;
+}
+
+.team-btn { 
+  width: 32px; 
+  height: 32px; 
+  border: 2px solid #4CAF50;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #4CAF50;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.team-btn:hover {
+  background: #f0f7f0;
+}
+
+.team-btn:active { 
+  background: #4CAF50; 
+  color: white;
+}
+
+.team-val { 
+  min-width: 50px; 
+  text-align: center; 
+  font-weight: 700; 
+  font-size: 14px; 
+  color: #2d7d4a;
+}
+
+.day-input { 
+  width: 100%;
+  padding: 12px 14px; 
+  border: 2px solid #f0f0f0;
+  border-radius: 10px; 
+  background: #fafafa;
+  font-family: system-ui;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.day-input:focus { 
+  outline: none; 
+  border-color: #4CAF50;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(76,175,80,0.1);
+}
+
+.buttons { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr; 
+  gap: 8px; 
+  margin: 14px 0;
+}
+
+.status { 
+  padding: 12px; 
+  border: 2px solid;
+  background: #f3e5f5;
+  border-radius: 10px; 
+  cursor: pointer; 
+  font-weight: 700; 
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.status:hover {
+  transform: translateY(-2px);
+}
+
+/* Normal Button - Grün */
+.status:nth-child(1) { 
+  border-color: #4CAF50; 
+  color: #2d7d4a;
+}
+.status:nth-child(1).active { 
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+}
+
+/* Krank Button - Violett */
+.status:nth-child(2) { 
+  border-color: #9c27b0; 
+  color: #6a1b9a;
+}
+.status:nth-child(2).active { 
+  background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+  color: white;
+  border-color: #6a1b9a;
+  box-shadow: 0 4px 12px rgba(156,39,176,0.3);
+}
+
+/* Frei Button - Gelb */
+.status:nth-child(3) { 
+  border-color: #ffc107; 
+  color: #ff8f00;
+  background: #fffde7;
+}
+.status:nth-child(3).active { 
+  background: #ffc107;
+  color: white;
+  border-color: #ff8f00;
+  box-shadow: 0 4px 12px rgba(255,193,7,0.3);
+}
+
+/* Keine Schule Button - Rot */
+.status:nth-child(4) { 
+  border-color: #f44336; 
+  color: #c62828;
+  background: #ffebee;
+}
+.status:nth-child(4).active { 
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+  border-color: #b71c1c;
+  box-shadow: 0 4px 12px rgba(244,67,54,0.3);
+}
+
+.summary-box { 
+  background: white;
+  border: 1px solid rgba(76,175,80,0.2);
+  border-radius: 16px; 
+  padding: 20px; 
+  margin: 16px 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.summary-title { 
+  font-weight: 700; 
+  color: #2d7d4a; 
+  font-size: 18px; 
+  margin-bottom: 14px;
+}
+
+.summary-row { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 10px 0; 
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.summary-row:last-child { border-bottom: none; }
+
+.summary-label { 
+  color: #666; 
+  font-weight: 600;
+}
+
+.summary-value { 
+  font-weight: 700; 
+  color: #2d7d4a;
+}
+
+.summary-value.highlight { 
+  color: #2196F3;
+  font-size: 16px;
+}
+
+.actions { 
+  display: flex; 
+  gap: 10px; 
+  margin: 16px 0;
+}
+
+.btn { 
+  flex: 1; 
+  padding: 14px; 
+  border: none; 
+  border-radius: 12px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-save { 
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76,175,80,0.4);
+}
+
+.btn-reset { 
+  background: white;
+  border: 2px solid #e64a19;
+  color: #e64a19;
+}
+
+.btn-reset:hover {
+  background: #fff5f0;
+  transform: translateY(-2px);
+}
+
+.btn-print { 
+  background: linear-gradient(135deg, #2196F3, #1e88e5);
+  color: white; 
+  width: 100%; 
+  margin-top: 10px;
+}
+
+.btn-print:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33,150,243,0.4);
+}
+
+.msg { 
+  text-align: center; 
+  color: #4CAF50; 
+  font-size: 12px; 
+  margin-top: 12px; 
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📋 Stundenzettel</h1>
+  <p>Marc Hoß · RGT · AWO</p>
+  <div class="header-info">= 31 Stunden</div>
+</div>
+
+<div class="nav">
+  <button onclick="prev()">‹</button>
+  <div class="nav-text" id="month">Mai 2026</div>
+  <button onclick="next()">›</button>
+</div>
+
+<div class="container" id="container">
+  <div id="content"></div>
+  
+  <div class="summary-box">
+    <div class="summary-title">📊 Monatsübersicht</div>
+    <div class="summary-row">
+      <span class="summary-label">Gesamt SOLL:</span>
+      <span class="summary-value" id="soll-total">127,20h</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Gesamt IST:</span>
+      <span class="summary-value" id="ist-total">128,00h</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Vorbereitung:</span>
+      <span class="summary-value">+ 4,00h</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Übertrag Vormonat:</span>
+      <span class="summary-value" id="carryover">+ 0,00h</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Neuer Stand +/-:</span>
+      <span class="summary-value highlight" id="new-balance">+ 0,40h</span>
+    </div>
+  </div>
+  
+  <div class="actions">
+    <button class="btn btn-save" onclick="save()">💾 Speichern</button>
+    <button class="btn btn-reset" onclick="reset()">↺ Zurücksetzen</button>
+  </div>
+  
+  <button class="btn btn-print" onclick="printPDF()">🖨️ Ausdrucken / Als PDF speichern</button>
+  
+  <div class="msg" id="msg"></div>
+</div>
+
+<script>
+let y = 2026, m = 4;
+const MN = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+
+const STD_AZ = ['', '7:30-15:00', '10:00-14:20', '8:00-13:30', '8:00-16:00', '10:00-15:00', ''];
+const STD_SOLL = [0, 7.0, 4.2, 5.1, 8.3, 5.0, 0];
+const PREP_HOURS = 4;
+
+function getDays(y, m) {
+  let days = [];
+  let last = new Date(y, m + 1, 0).getDate();
+  for (let i = 1; i <= last; i++) {
+    days.push({ day: i, dow: new Date(y, m, i).getDay() });
+  }
+  return days;
+}
+
+function getKey(y, m, day) {
+  return 'sz_' + y + '_' + m + '_' + day;
+}
+
+function getData(y, m, day) {
+  let key = getKey(y, m, day);
+  let dow = new Date(y, m, day).getDay();
+  try {
+    let data = JSON.parse(localStorage.getItem(key)) || { 
+      az: STD_AZ[dow] || '', 
+      ist: '', 
+      team: dow === 4 ? 60 : 0,
+      status: 'normal', 
+      gr: '' 
+    };
+    if (typeof data.team === 'undefined') data.team = dow === 4 ? 60 : 0;
+    return data;
+  } catch (e) {
+    return { az: STD_AZ[dow] || '', ist: '', team: dow === 4 ? 60 : 0, status: 'normal', gr: '' };
+  }
+}
+
+function saveData(y, m, day, data) {
+  let key = getKey(y, m, day);
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function show() {
+  let days = getDays(y, m);
+  let html = '';
+  let totSoll = 0, totIst = 0;
+  
+  for (let day of days) {
+    let dow = day.dow;
+    if (dow === 0 || dow === 6) continue;
+    
+    let data = getData(y, m, day.day);
+    let az = data.az || STD_AZ[dow];
+    let sollStunden = STD_SOLL[dow];
+    let istInput = data.ist;
+    let ist = istInput ? parseFloat(istInput.replace(',', '.')) : sollStunden;
+    let teamMin = data.team || 0;
+    let status = data.status;
+    
+    if (dow === 4) {
+      ist += (teamMin / 60);
+      sollStunden += (teamMin / 60);
+    }
+    
+    totSoll += sollStunden;
+    totIst += ist;
+    
+    html += '<div class="card">';
+    html += '<div class="day-header"><div class="day-label">' + WT[dow] + ' ' + String(day.day).padStart(2,'0') + '.' + String(m+1).padStart(2,'0') + '.</div><div class="time-display">' + az + '</div></div>';
+    
+    html += '<div class="input-row">';
+    html += '<input type="text" id="az' + day.day + '" class="day-input" value="' + az + '" style="display:none;" onchange="updateDay(' + y + ',' + m + ',' + day.day + ')">';
+    html += '<button class="hours-btn" onclick="adjustHours(' + y + ',' + m + ',' + day.day + ',-15)">−</button>';
+    html += '<div class="hours-display">' + (istInput || sollStunden.toFixed(2).replace('.', ',')) + 'h</div>';
+    html += '<button class="hours-btn" onclick="adjustHours(' + y + ',' + m + ',' + day.day + ',15)">+</button>';
+    html += '</div>';
+    
+    if (dow === 4) {
+      let isTeamActive = teamMin > 0;
+      html += '<div class="team-section">';
+      html += '<div class="team-label"><span>⭐ Team 16:15-17:15</span><button class="team-remove" onclick="toggleTeam(' + y + ',' + m + ',' + day.day + ')">' + (isTeamActive ? '✕ Aus' : '✓ An') + '</button></div>';
+      
+      if (isTeamActive) {
+        html += '<div class="team-controls">';
+        html += '<button class="team-btn" onclick="adjustTeam(' + y + ',' + m + ',' + day.day + ',-15)">−</button>';
+        html += '<div class="team-val">' + (teamMin / 60).toFixed(2).replace('.', ',') + 'h</div>';
+        html += '<button class="team-btn" onclick="adjustTeam(' + y + ',' + m + ',' + day.day + ',15)">+</button>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    
+    html += '<div class="buttons">';
+    html += '<button class="status' + (status === 'normal' ? ' active' : '') + '" onclick="setStatus(' + y + ',' + m + ',' + day.day + ', \'normal\')">Normal</button>';
+    html += '<button class="status' + (status === 'krank' ? ' active' : '') + '" onclick="setStatus(' + y + ',' + m + ',' + day.day + ', \'krank\')">Krank</button>';
+    html += '<button class="status' + (status === 'frei' ? ' active' : '') + '" onclick="setStatus(' + y + ',' + m + ',' + day.day + ', \'frei\')">Frei</button>';
+    html += '<button class="status' + (status === 'keine' ? ' active' : '') + '" onclick="setStatus(' + y + ',' + m + ',' + day.day + ', \'keine\')">Keine Schule</button>';
+    html += '</div>';
+    
+    html += '<input type="text" id="gr' + day.day + '" class="day-input" value="' + (data.gr || '') + '" placeholder="Begründung (z.B. kein Team, Vertretung...)" onchange="updateDay(' + y + ',' + m + ',' + day.day + ')">';
+    html += '</div>';
+  }
+  
+  document.getElementById('content').innerHTML = html;
+  document.getElementById('month').textContent = MN[m] + ' ' + y;
+  
+  document.getElementById('soll-total').textContent = totSoll.toFixed(2).replace('.', ',') + 'h';
+  document.getElementById('ist-total').textContent = totIst.toFixed(2).replace('.', ',') + 'h';
+  
+  let newBalance = (totIst + PREP_HOURS) - totSoll;
+  document.getElementById('new-balance').textContent = (newBalance >= 0 ? '+' : '') + newBalance.toFixed(2).replace('.', ',') + 'h';
+}
+
+function updateDay(y, m, day) {
+  let dow = new Date(y, m, day).getDay();
+  let az = document.getElementById('az' + day).value;
+  let gr = document.getElementById('gr' + day).value;
+  let status = 'normal';
+  
+  let data = getData(y, m, day);
+  data.az = az;
+  data.status = status;
+  data.gr = gr;
+  
+  saveData(y, m, day, data);
+  show();
+}
+
+function adjustHours(y, m, day, deltaMin) {
+  let data = getData(y, m, day);
+  let dow = new Date(y, m, day).getDay();
+  let current = data.ist ? parseFloat(data.ist.replace(',', '.')) : STD_SOLL[dow];
+  let newVal = current + (deltaMin / 60);
+  newVal = Math.max(0, newVal);
+  data.ist = newVal.toFixed(2).replace('.', ',');
+  saveData(y, m, day, data);
+  show();
+}
+
+function adjustTeam(y, m, day, delta) {
+  let data = getData(y, m, day);
+  data.team = Math.max(0, (data.team || 0) + delta);
+  saveData(y, m, day, data);
+  show();
+}
+
+function toggleTeam(y, m, day) {
+  let data = getData(y, m, day);
+  if (data.team > 0) {
+    data.team = 0;
+    data.ist = '8,30';
+  } else {
+    data.team = 60;
+    data.ist = '9,30';
+  }
+  saveData(y, m, day, data);
+  show();
+}
+
+function setStatus(y, m, day, status) {
+  let data = getData(y, m, day);
+  let dow = new Date(y, m, day).getDay();
+  data.status = status;
+  
+  if (status === 'krank') {
+    data.ist = STD_SOLL[dow].toFixed(2).replace('.', ',');
+    data.gr = 'krank';
+  } else if (status === 'frei') {
+    data.ist = '0,00';
+    data.gr = 'frei';
+  } else if (status === 'keine') {
+    data.ist = '-' + STD_SOLL[dow].toFixed(2).replace('.', ',');
+    data.gr = 'keine Schule';
+  } else {
+    data.ist = '';
+    data.gr = '';
+  }
+  
+  saveData(y, m, day, data);
+  show();
+}
+
+function prev() { m--; if (m < 0) { m = 11; y--; } show(); }
+function next() { m++; if (m > 11) { m = 0; y++; } show(); }
+function save() { document.getElementById('msg').textContent = '✅ Gespeichert!'; setTimeout(() => document.getElementById('msg').textContent = '', 2000); }
+function reset() { if (confirm('Alle Einträge löschen?')) { for (let i = 1; i <= 31; i++) { localStorage.removeItem('sz_' + y + '_' + m + '_' + i); } show(); } }
+
+function printPDF() {
+  let days = getDays(y, m);
+  
+  // ERST: Gesamtstunden berechnen
+  let totalSoll = 0, totalIst = 0;
+  for (let day of days) {
+    let dow = day.dow;
+    if (dow === 0 || dow === 6) continue;
+    let data = getData(y, m, day.day);
+    let sollHours = STD_SOLL[dow];
+    let istHours = data.ist ? parseFloat(data.ist.replace(',','.')) : sollHours;
+    if (dow === 4) {
+      istHours += (data.team || 0) / 60;
+      sollHours += (data.team || 0) / 60;
+    }
+    totalSoll += sollHours;
+    totalIst += istHours;
+  }
+  
+  // Daten nach Wochen gruppieren
+  let weeks = [];
+  let currentWeek = [];
+  for (let day of days) {
+    let dow = day.dow;
+    if (dow === 0 || dow === 6) continue;
+    if (dow === 1 && currentWeek.length > 0) {
+      weeks.push(currentWeek);
+      currentWeek = [];
+    }
+    currentWeek.push(day);
+  }
+  if (currentWeek.length > 0) weeks.push(currentWeek);
+  
+  let html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { margin:0; padding:0; }
+    #page { width:210mm; height:297mm; position:relative; 
+            background-image:url(scan-bg.JPG); 
+            background-size:contain; 
+            background-repeat:no-repeat;
+            background-position:center;
+            font-family:Arial,sans-serif; font-size:9px; }
+    .field { position:absolute; }
+  </style>
+</head>
+<body>
+<div id="page">`;
+
+  let totalHoursStr = totalIst.toFixed(2).replace('.',',');
+  html += `<div class="field" style="left:40mm; top:30mm; font-weight:bold;">RGT</div>`;
+  html += `<div class="field" style="left:40mm; top:38mm;">Marc Hoß</div>`;
+  html += `<div class="field" style="left:115mm; top:38mm;">Mai 2026</div>`;
+  html += `<div class="field" style="left:175mm; top:38mm; text-align:center;">${totalHoursStr}</div>`;
+  
+  let yPos = 68;
+  for (let week of weeks) {
+    let weekSoll = 0, weekIst = 0;
+    let weekStartY = yPos;
+    
+    for (let day of week) {
+      let data = getData(y, m, day.day);
+      let dow = day.dow;
+      let dateStr = String(day.day).padStart(2,'0') + '.' + String(m+1).padStart(2,'0');
+      let timeStr = data.az || STD_AZ[dow];
+      let hoursStr = (data.ist || STD_SOLL[dow].toFixed(2)).replace('.',',');
+      let sollHours = STD_SOLL[dow];
+      let istHours = data.ist ? parseFloat(data.ist.replace(',','.')) : sollHours;
+      if (dow === 4) {
+        istHours += (data.team || 0) / 60;
+        sollHours += (data.team || 0) / 60;
+      }
+      weekSoll += sollHours;
+      weekIst += istHours;
+      
+      html += `<div class="field" style="left:18mm; top:${yPos}mm;">${dateStr}</div>`;
+      html += `<div class="field" style="left:45mm; top:${yPos}mm;">${timeStr}</div>`;
+      html += `<div class="field" style="left:115mm; top:${yPos}mm; text-align:center;">${hoursStr}</div>`;
+      yPos += 6.5;
+    }
+    
+    let weekYPos = weekStartY + (week.length * 6.5) / 2 - 6;
+    html += `<div class="field" style="left:172mm; top:${weekYPos}mm; font-size:8px; line-height:1.2;">
+      Gesamt SOLL Woche:<br>${weekSoll.toFixed(2).replace('.',',')} h<br><br>
+      Gesamt IST Woche:<br>${weekIst.toFixed(2).replace('.',',')} h<br><br>
+      +/-Stunden:<br>${(weekIst - weekSoll).toFixed(2).replace('.',',')} h
+    </div>`;
+    yPos += 3;
+  }
+  
+  html += `<div class="field" style="left:120mm; top:${yPos + 20}mm; font-weight:bold; font-size:10px;">
+    Gesamt Monat +/-Stunden: ${(totalIst - totalSoll).toFixed(2).replace('.',',')} h
+  </div>`;
+  html += `</div></body></html>`;
+  
+  let w = window.open();
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
