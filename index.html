@@ -144,16 +144,117 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-se
 
 /* ── SUB VIEW ── */
 #subView{display:none;padding-bottom:80px;background:transparent;min-height:100vh;margin-top:-90px}
-.sub-hdr{display:flex;align-items:center;padding:12px 14px 10px;gap:12px;
-  background:rgba(0,0,0,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  position:relative;justify-content:center}
-.back-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);color:#fff;cursor:pointer;
-  border-radius:10px;padding:6px 12px;font-size:12px;font-weight:700;
-  display:flex;align-items:center;gap:4px;flex-shrink:0;white-space:nowrap;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  position:absolute;left:14px;transition:all .2s}
-.back-btn.bottom{position:relative;left:0}
-.sub-title{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.3px}
+.sub-hdr{
+  background:linear-gradient(135deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.2) 100%);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  padding:16px 16px 14px;
+  border-bottom:1.5px solid rgba(255,255,255,.15);
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:12px;
+  align-items:center;
+}
+.back-btn{
+  background:rgba(255,255,255,.12);
+  border:1.5px solid rgba(255,255,255,.25);
+  color:#fff;
+  cursor:pointer;
+  border-radius:12px;
+  padding:8px 16px;
+  font-size:13px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-shrink:0;
+  white-space:nowrap;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.back-btn:hover{
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.35);
+  transform:translateY(-2px);
+}
+.back-btn:active{transform:translateY(0);}
+
+.sub-title-wrapper{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex:1;
+}
+.sub-title-icon{font-size:24px;}
+.sub-title{
+  font-size:22px;
+  font-weight:900;
+  color:#fff;
+  letter-spacing:-.4px;
+  text-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+#searchBar{
+  background:rgba(255,255,255,.14);
+  border:1.5px solid rgba(255,255,255,.2);
+  border-radius:10px;
+  padding:8px 14px;
+  padding-left:36px;
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  width:160px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  transition:all .25s;
+  position:relative;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,.5)' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:8px center;
+  background-size:16px;
+}
+#searchBar::placeholder{color:rgba(255,255,255,.4);}
+#searchBar:focus{
+  outline:none;
+  background-color:rgba(255,255,255,.2);
+  border-color:rgba(255,255,255,.4);
+  box-shadow:0 0 0 3px rgba(255,255,255,.1);
+}
+
+.view-toggle{
+  background:rgba(255,255,255,.12);
+  border:1.5px solid rgba(255,255,255,.25);
+  color:#fff;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  flex-shrink:0;
+}
+.view-toggle:hover{
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.35);
+  transform:translateY(-2px);
+}
+.view-toggle:active{transform:translateY(0);}
+.view-toggle.active{
+  background:rgba(255,255,255,.25);
+  border-color:rgba(255,255,255,.4);
+}
 .sub-content{padding:8px 14px;background:var(--bg);border-radius:20px 20px 0 0;margin-top:0;min-height:calc(100vh - 160px)}
 
 /* Tages-Karten */
@@ -359,6 +460,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-se
   button{display:none!important}
 }
 
+/* Kompaktansicht Grid */
+.d-cards-grid { display:flex; flex-direction:column; gap:10px; }
+.d-cards-grid.compact { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.d-cards-grid.compact .d-card { margin:0; border-radius:10px; }
+.d-cards-grid.compact .d-h-inp { font-size:12px; padding:5px 4px; }
+.d-cards-grid.compact .d-h-show { font-size:20px; font-weight:800; }
+.d-cards-grid.compact .s-btn { width:28px; height:28px; font-size:14px; }
+.d-cards-grid.compact .d-st-btn { font-size:11px; padding:8px 2px; }
+.d-cards-grid.compact .d-grund { font-size:11px; padding:4px 6px; }
+
 @media print{
   #hdr,#mainScroll .nav-grid,#mainScroll .nav-full,#mainScroll .evt-card,#bar{display:none!important}
   .sub-hdr,#bar{display:none!important}
@@ -425,7 +536,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-se
 <div id="subView">
   <div class="sub-hdr">
     <button class="back-btn" onclick="closeView()">← Zurück</button>
-    <span class="sub-title" id="subTitle"></span>
+    <div class="sub-title-wrapper">
+      <span class="sub-title-icon">📋</span>
+      <span class="sub-title" id="subTitle"></span>
+    </div>
+    <div class="header-actions">
+      <input type="text" id="searchBar" placeholder="Datum..." onkeypress="if(event.key==='Enter') jumpToDate()">
+      <button class="view-toggle" onclick="toggleViewMode()" title="Kompaktansicht">⊞</button>
+    </div>
   </div>
   <div class="sub-content" id="subContent"></div>
 </div>
@@ -507,7 +625,7 @@ const PLAN={
 const WSOLL=31,TDEF=1,VDEF=1,STEP=0.15;
 const MN=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const TKZ=['So','Mo','Di','Mi','Do','Fr','Sa'];
-let S={year:new Date().getFullYear(),month:new Date().getMonth()+1,view:'home',data:{},vorb:{},ubertrag:0};
+let S={year:new Date().getFullYear(),month:new Date().getMonth()+1,view:'home',viewMode:'normal',data:{},vorb:{},ubertrag:0};
 
 function fH(n){if(n==null||isNaN(n))return'–';const s=n<0?'-':'',a=Math.abs(n),h=Math.floor(a),m=String(Math.round((a-h)*100)).padStart(2,'0');return s+h+','+m;}
 function dKey(y,m,d){return`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
@@ -530,8 +648,9 @@ function openView(v){
   const sv=document.getElementById('subView');
   const ms=document.getElementById('mainScroll');
   document.getElementById('bar').classList.add('show');
-  const t={uebersicht:'🗒️ Tage',kompakt:'🗓️ Woche',monat:'📊 Bilanz'};
-  document.getElementById('subTitle').textContent=t[v];
+  const t={uebersicht:{title:'Tage',icon:'📋'},kompakt:{title:'Woche',icon:'🗓️'},monat:{title:'Bilanz',icon:'📊'}};
+  document.getElementById('subTitle').textContent=t[v].title;
+  document.querySelector('.sub-title-icon').textContent=t[v].icon;
   renderSub();
   ms.style.display='none';
   sv.style.display='block';
@@ -551,6 +670,50 @@ function closeView(){
     ms.style.display='block';
     document.getElementById('bar').classList.remove('show');
   },{once:true});
+}
+
+function toggleViewMode(){
+  S.viewMode=S.viewMode==='compact'?'normal':'compact';
+  localStorage.setItem('sz_viewMode',S.viewMode);
+  const btn=document.querySelector('.view-toggle');
+  if(btn) btn.classList.toggle('active',S.viewMode==='compact');
+  if(S.view==='uebersicht') renderSub();
+}
+
+function jumpToDate(){
+  const d=document.getElementById('searchBar').value;
+  if(!d) return;
+  // Format: DD.MM oder DD.MM.YYYY
+  const parts=d.split('.');
+  if(parts.length<2) return;
+  let day=parseInt(parts[0]),month=parseInt(parts[1]),year=parts[2]?parseInt(parts[2]):S.year;
+  if(day<1||day>31||month<1||month>12) return;
+  // Navigiere zu dem Monat wenn nötig
+  if(month!==S.month||year!==S.year){
+    S.month=month; S.year=year;
+    updateMonthLabel();
+  }
+  // Öffne die Übersicht View (wie openView macht)
+  S.view='uebersicht';
+  const sv=document.getElementById('subView');
+  const ms=document.getElementById('mainScroll');
+  document.getElementById('bar').classList.add('show');
+  document.getElementById('subTitle').textContent='Tage';
+  document.querySelector('.sub-title-icon').textContent='📋';
+  document.getElementById('searchBar').value='';
+  renderSub();
+  ms.style.display='none';
+  sv.style.display='block';
+  sv.classList.remove('closing');
+  sv.classList.add('opening');
+  sv.addEventListener('animationend',()=>sv.classList.remove('opening'),{once:true});
+  
+  // Springe zum Tag
+  setTimeout(()=>{
+    const key=dKey(year,month,day);
+    const el=document.querySelector(`[data-key="${key}"]`);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  },150);
 }
 
 function rToday(){
@@ -636,6 +799,7 @@ function rUebersicht(){
   
   let h='';
   let totalSoll=0,totalIst=0;
+  h+=`<div class="d-cards-grid ${S.viewMode==='compact'?'compact':''}">`;
   days.forEach(({d,dow,key})=>{
     const D=dd(key,dow),p=PLAN[dow],st=D.status;
     const soll=p.soll+(p.team?(D.team||0):0);
@@ -648,7 +812,7 @@ function rUebersicht(){
     const bl=st==='frei'?'★ Frei':st==='krank'?'✕ Krank':st==='keine_schule'?'🚫 Schule':p.az;
     const bc=st==='frei'?'b-frei':st==='krank'?'b-krank':st==='keine_schule'?'b-ks':'';
     const cardCls=st==='frei'?'card-frei':st==='krank'?'card-krank':st==='keine_schule'?'card-ks':'';
-    h+=`<div class="d-card ${cardCls}"><div class="d-head ${hc}">
+    h+=`<div class="d-card ${cardCls}" data-key="${key}"><div class="d-head ${hc}">
       <span class="d-name${st?' grau':''}">${p.kz} ${d}.${String(S.month).padStart(2,'0')}.</span>
       <span class="d-badge ${bc}">${bl}</span></div>
       <div class="d-body">
@@ -672,8 +836,15 @@ function rUebersicht(){
         <input class="d-grund" type="text" placeholder="Begründung..." value="${D.grund}" onchange="setG('${key}',${dow},this.value)">
       </div></div>`;
   });
-  // Zusammenfassung
-  const totalDiff=Math.round((totalIst-totalSoll)*100)/100;
+  h+=`</div>`;
+  // Zusammenfassung - mit Vorbereitung
+  const weeks=weeksOf(S.year,S.month);
+  let totalVorb=0;
+  Object.entries(weeks).forEach(([wk,days])=>{
+    totalVorb+=S.vorb[wk]!==undefined?S.vorb[wk]:VDEF;
+  });
+  totalVorb=Math.round(totalVorb*100)/100;
+  const totalDiff=Math.round((totalIst+totalVorb-totalSoll)*100)/100;
   h+=`<div class="d-summary">
     <h4>📊 Bisherige Bilanz – ${MN[S.month-1]}</h4>
     <div class="d-sum-grid">
@@ -682,9 +853,9 @@ function rUebersicht(){
       <div class="d-sum-box"><div class="lbl">+/–</div><div class="val ${totalDiff>0?'pos':totalDiff<0?'neg':''}">${totalDiff>=0?'+':''}${fH(totalDiff)}h</div></div>
     </div>
   </div>`;
-  const weeks=weeksOf(S.year,S.month);
+  const weeks2=weeksOf(S.year,S.month);
   h+=`<div class="vorb-section"><h3>📝 Vorbereitungszeit</h3>`;
-  Object.entries(weeks).forEach(([wk,days])=>{
+  Object.entries(weeks2).forEach(([wk,days])=>{
     const v=S.vorb[wk]!==undefined?S.vorb[wk]:VDEF;
     const kw=wk.split('-W')[1],d1=days[0].d,d2=days[days.length-1].d;
     h+=`<div class="vorb-row"><span class="vorb-lbl">KW ${kw} (${d1}.–${d2}.)</span>
@@ -1070,7 +1241,14 @@ function openShareModal(){
 }
 function closeShareModal(){document.getElementById('shareModal').style.display='none';}
 
-function init(){document.getElementById('monthLabel').textContent=`${MN[S.month-1]} ${S.year}`;rToday();}
+function init(){
+  document.getElementById('monthLabel').textContent=`${MN[S.month-1]} ${S.year}`;
+  // Viewmode aus localStorage laden
+  S.viewMode=localStorage.getItem('sz_viewMode')||'normal';
+  const toggleBtn=document.querySelector('.view-toggle');
+  if(toggleBtn) toggleBtn.classList.toggle('active',S.viewMode==='compact');
+  rToday();
+}
 load();init();rEvtWidget();
 </script>
 </body>
