@@ -594,7 +594,7 @@ function rToday(){
       <div class="tf-adj">
         <button class="adj-btn m" onclick="adjD('${key}',${dow},-1)"${st?' disabled':''}>−</button>
         <button class="adj-btn p" onclick="adjD('${key}',${dow},1)"${st?' disabled':''}>+</button>
-      </div>
+        ${!st&&diff!==0?`<button onclick="resetD('${key}',${dow})" style="background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--sub);cursor:pointer">↺ Soll</button>`:''}</div>
     </div>
     ${!st?`<div class="tf-prog">
       <div class="tf-prog-lbl"><span>${fH(ist)}h</span><span style="color:${diffCol}">${diffTxt}</span></div>
@@ -788,6 +788,7 @@ function rMonat(){
   </div>`;
 }
 
+function resetD(k,dw){const p=PLAN[dw];if(!S.data[k])S.data[k]={};S.data[k].ist=p.soll+(p.team?(S.data[k].team||TDEF):0);save();rToday();if(S.view!=='home')renderSub();}
 function adjD(k,dw,d){const D=dd(k,dw);if(!S.data[k])S.data[k]={...D};S.data[k].ist=step(S.data[k].ist!==undefined?S.data[k].ist:D.ist,d);save();rToday();if(S.view!=='home')renderSub();}
 function adjT(k,dw,d){const D=dd(k,dw);if(!S.data[k])S.data[k]={...D};const nt=step(S.data[k].team!==undefined?S.data[k].team:TDEF,d);S.data[k].team=nt;S.data[k].ist=Math.round((PLAN[dw].soll+nt)*100)/100;save();rToday();if(S.view!=='home')renderSub();}
 function togS(k,dw,st){const D=dd(k,dw);if(!S.data[k])S.data[k]={...D};S.data[k].status=S.data[k].status===st?'':st;save();rToday();if(S.view!=='home')renderSub();}
